@@ -1,15 +1,43 @@
 from nltk import clean_html
-import sys
+import sys, re
 
+'''
 def buildCorpus(filepaths):
    for path in filepaths:
-      review = clean_html(open(path).read())
-      print review      
+      raw = open(path).read()
+      raw = re.sub(r'< *br *\/?> *', "\n", raw)
+      review = clean_html(raw)
       
+      review = review.split('\n')
+      for idx, line in enumerate(review):
+         review[idx] = re.sub(r'\r|\xc2|\xa0', ' ', line)
+
+      print review
+'''
+
+def buildCorpus(filepaths):
+   from nltk.corpus import PlaintextCorpusReader
+
+   for path in filepaths:
+      raw = open(path).read()
+      
+      food = re.findall(r'FOOD: *(\d)', raw)
+      service = re.findall(r'SERVICE: *(\d)', raw)
+      venue = re.findall(r'VENUE: *(\d)', raw)
+      rating = re.findall(r'RATING: *(\d)', raw)
+
+      reviews = re.findall(r'WRITTEN REVIEW:\s*(.*\n)(.*\n)(.*\n)(.*\n)', raw)
+      for review in reviews:
+         print "Review:"
+         for para in review:
+            print para
+
+   #corpus_root = '/tmp/'
+   #newcorpus = PlaintextCorpusReader(corpus_root, '.*')
+   #return newcorpus
    
 def main():
    buildCorpus(sys.argv[1:])
-
 
 if __name__ == '__main__':
    main()
