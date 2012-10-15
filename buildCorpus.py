@@ -15,10 +15,8 @@ def buildCorpus(filepaths):
       print review
 '''
 
-def buildCorpus(filepaths):
+def buildCorpus(filepaths, corpus_root):
    from nltk.corpus import PlaintextCorpusReader
-
-   corpus_root = '/tmp/restaurant/'
 
    temps = [open(corpus_root + str(i) + ".txt", 'w') for i in range(1, 6)]
 
