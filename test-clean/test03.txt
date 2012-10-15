@@ -2,10 +2,10 @@ REVIEWER: X
 NAME: X
 ADDRESS: X
 CITY: X
-FOOD: ?
-SERVICE: ?
-VENUE: ?
-RATING: ?
+FOOD: 3
+SERVICE: 3
+VENUE: 3
+RATING: 3
 WRITTEN REVIEW:
 Petra Cafe is a great Mediterranean restaurant just outside of downtown San Luis Obispo. It is situated direction next to Jaffa Cafe, another Mediterranean restaurant. In my opinion, Petra has better food and better people.
 Petra Cafe's food is fantastic. The falafel is scrumptous, the lamb shawarma is to die for, and the pizzas are out of this world. The plates come with hummus, greek yogurt, and pita bread, which are all top notch. There is also a few sauces available, including an incredible garlic butter concoction which will leave you with garlic breath for days.

@@ -2,10 +2,10 @@ REVIEWER: X
 NAME: X
 ADDRESS: X
 CITY: X
-FOOD: ?
-SERVICE: ?
-VENUE: ?
-RATING: ?
+FOOD: 2
+SERVICE: 2
+VENUE: 2
+RATING: 2
 WRITTEN REVIEW:
 19 Metro Station provide food for hungry CalPoly students. I go there almost every day to fill my stomach. It offers various kinds of food including salada bars and Asian food such as fried rice and Chowmein noodle in buffet style. I am getting tired of the food because the menu is changed only weekly and very slightly. The other thig I do not like about it is that any not drink such as coffee is not offered there.
 The level of service at 19 Metro Station is average. It is not very good, but I do not expect more for a buffet style restaurant. One thing I do not like about its service is that it is not open everyday.

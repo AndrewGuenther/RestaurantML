@@ -8,10 +8,10 @@
 #Three string features are extracted per word: first two letters, last letter and last three letters
 #Note that featuresets are dictionaries. That's what the classifier takes as input
 def langFeatures(word):
-	return {'word':word, 'last 2': word[-2:]}
+	return {'word':word, 'length': len(word), 'last 2': word[-2:]}
 
 #minimum word length we want to consider
-ml = 0
+ml = 3
 
 #languages we are interested in (over 300 available in the udhr corpus) MUST be "Latin1" coding
 scores = range(1, 6)
@@ -24,7 +24,14 @@ from buildCorpus import buildCorpus
 
 for root, dirs, files in os.walk("./training-clean"):
    corpus = buildCorpus(["./training-clean/" + f for f in files])
+   
+for p in corpus.words('5.txt'):
+	print p
+for root, dirs, files in os.walk("./test-clean"):
+   testcorpus = buildCorpus(["./test-clean/" + f for f in files])
 
+#for p in testcorpus.paras('5.txt'):
+	#print p
 wordthings = {5: corpus.words('5.txt'), 4: corpus.words('4.txt'), 3: corpus.words('3.txt'), 2: corpus.words('2.txt'), 1: corpus.words('1.txt')}
 
 #use Python's functional features to get a big list of (word,Langauge) from languages, we are interested in
@@ -43,13 +50,12 @@ featureSets = [(langFeatures(w),l) for (w,l) in words]
 
 #splits training and test sets, it's about 1/5 test
 s = len(featureSets)
-train, test = featureSets[:int(s * 0.8)], featureSets[int(s * 0.8):]
+train, test = featureSets, testcorpus.paras('5.txt') + testcorpus.paras('4.txt') + testcorpus.paras('3.txt') + testcorpus.paras('2.txt') + testcorpus.paras('1.txt') 
 
 #NLTK's built-in implementation of the Naive Bayes classifier is trained
 classifier = nltk.NaiveBayesClassifier.train(train)
-
-'''
-for paras in test:
+print "Fives:"
+for paras in testcorpus.paras('5.txt'):
    total = 0.0
    count = 0.0
    #print paras
@@ -62,12 +68,83 @@ for paras in test:
          count = count + 1
          total = total + classifier.classify(langFeatures(words))
    print "First word in paragraph is: ",
-   print paras[0],
+   print paras[0][0],
    print " aggregate score is: ",
    print total/count
-'''   
+
+print "Fours?:"
+for paras in testcorpus.paras('4.txt'):
+   total = 0.0
+   count = 0.0
+   #print paras
+   for sents in paras:
+      #print sents
+      for words in sents:
+         #print "Pairing: " ,
+         #print words,
+         #print " Score: ",
+         count = count + 1
+         total = total + classifier.classify(langFeatures(words))
+   print "First word in paragraph is: ",
+   print paras[0][0],
+   print " aggregate score is: ",
+   print total/count
+   
+print "ThreeNow:"
+for paras in testcorpus.paras('3.txt'):
+   total = 0.0
+   count = 0.0
+   #print paras
+   for sents in paras:
+      #print sents
+      for words in sents:
+         #print "Pairing: " ,
+         #print words,
+         #print " Score: ",
+         count = count + 1
+         total = total + classifier.classify(langFeatures(words))
+   print "First word in paragraph is: ",
+   print paras[0][0],
+   print " aggregate score is: ",
+   print total/count
+   
+print "Two:"
+for paras in testcorpus.paras('2.txt'):
+   total = 0.0
+   count = 0.0
+   #print paras
+   for sents in paras:
+      #print sents
+      for words in sents:
+         #print "Pairing: " ,
+         #print words,
+         #print " Score: ",
+         count = count + 1
+         total = total + classifier.classify(langFeatures(words))
+   print "First word in paragraph is: ",
+   print paras[0][0],
+   print " aggregate score is: ",
+   print total/count
+   
+print "One:"
+for paras in testcorpus.paras('1.txt'):
+   total = 0.0
+   count = 0.0
+   #print paras
+   for sents in paras:
+      #print sents
+      for words in sents:
+         #print "Pairing: " ,
+         #print words,
+         #print " Score: ",
+         count = count + 1
+         total = total + classifier.classify(langFeatures(words))
+   print "First word in paragraph is: ",
+   print paras[0][0],
+   print " aggregate score is: ",
+   print total/count
 #now, it is tested on the test set and the accuracy reported
-print "Accuracy: ",nltk.classify.accuracy(classifier,test)
+#print "Accuracy: ",nltk.classify.accuracy(classifier,test)
 
 #this is a nice function that reports the top most impactful features the NB classifier found
-print classifier.show_most_informative_features(10) 
+#print classifier.show_most_informative_features(10) 

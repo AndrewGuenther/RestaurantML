@@ -2,10 +2,10 @@ REVIEWER: X
 NAME: X
 ADDRESS: X
 CITY: X
-FOOD: ?
-SERVICE: ?
-VENUE: ?
-RATING: ?
+FOOD: 4
+SERVICE: 4
+VENUE: 4
+RATING: 4
 WRITTEN REVIEW:
 Lotus features a Mongolian bbq that allows one to build their own stir fry meal. It has a selection of multiple meats such as pork, chicken, and beef. It also has a decent selection of vegetables, rice's, and extras such as noodles that can be added to the bowl. The food compares quite well compared to other build it yourself stir fry's. The restaurant features other Mongolian food, though I am not familiar with it. I recommend Lotus for its stir fry. They also have table tappers for those wanting to celebrate an occasion.
 Upon entering the restaurant, I was greeted by an attended that quickly seated us, allowing us to choose whether we would like to eat inside and outside. They were quick to get us our drinks and take our orders. Once they got our stir fry, they immediately started cooking it  allowing us to watch them make it if we so desire. The staff was very friendly and attentive during the entire visit.

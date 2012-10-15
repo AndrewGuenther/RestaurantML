@@ -2,10 +2,10 @@ REVIEWER: X
 NAME: X
 ADDRESS: X
 CITY: X
-FOOD: ?
-SERVICE: ?
-VENUE: ?
-RATING: ?
+FOOD: 1
+SERVICE: 1
+VENUE: 1
+RATING: 1
 WRITTEN REVIEW:
 F.McLintocks is a ranch-style restaurant that is known for its steaks and ribs. The restaurant is rather pricey, but it offers high quality food and service. F.McLintocks also has a view of Pismo Beach. The interior of the restaurant is ranch themed and there are numerous animal trophies and other western decorations. Unlike many popular attractions in Shell Beach, F.Mclinktocks has its own parking.
 The food at F.McLintocks is fantastic, and there's plenty of it. Unlike other high price restaurants, F.McLintocks offers a ton of food with each meal. For example, if you order a steak, you also get beans, potatoes, and various other sides included with your meal. The steaks are delicious and the portions have a higher cost to weight ratio than other expensive steak establishments (such as Flemmings). The appetizers provided with the meal are also excellent. It is not difficult to enter F.McLintocks extremely hungry and leave full.
