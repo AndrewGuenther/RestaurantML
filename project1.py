@@ -54,95 +54,30 @@ train, test = featureSets, testcorpus.paras('5.txt') + testcorpus.paras('4.txt')
 
 #NLTK's built-in implementation of the Naive Bayes classifier is trained
 classifier = nltk.NaiveBayesClassifier.train(train)
-print "Fives:"
-for paras in testcorpus.paras('5.txt'):
-   total = 0.0
-   count = 0.0
-   #print paras
-   for sents in paras:
-      #print sents
-      for words in sents:
-         #print "Pairing: " ,
-         #print words,
-         #print " Score: ",
-         count = count + 1
-         total = total + classifier.classify(langFeatures(words))
-   print "First word in paragraph is: ",
-   print paras[0][0],
-   print " aggregate score is: ",
-   print total/count
+for id in testcorpus.fileids():
+	print id
+	for para in testcorpus.paras(id):
+#	   total = 0.0
+	   vals = {1:0, 2:0, 3:0, 4:0, 5:0}
+#	   count = 0.0
+	   #print paras
+	   for sent in para:
+	      #print sents
+	      for word in sent:
+	         #print "Pairing: " ,
+	         #print words,
+	         #print " Score: ",
+#	         count = count + 1
+	         output = classifier.classify(langFeatures(word))
+#	         total = total + output
+	         vals[output] = vals[output]+1
+#	   print "First word in paragraph is: ",
+#	   print para[0][0],
+#	   print " aggregate score is: ",
+# 	   print total/count
+	   print "Most common score is: ",
+	   print sorted(vals.items(), key=lambda (key, val): val)[-1][0]
 
-print "Fours?:"
-for paras in testcorpus.paras('4.txt'):
-   total = 0.0
-   count = 0.0
-   #print paras
-   for sents in paras:
-      #print sents
-      for words in sents:
-         #print "Pairing: " ,
-         #print words,
-         #print " Score: ",
-         count = count + 1
-         total = total + classifier.classify(langFeatures(words))
-   print "First word in paragraph is: ",
-   print paras[0][0],
-   print " aggregate score is: ",
-   print total/count
-   
-print "ThreeNow:"
-for paras in testcorpus.paras('3.txt'):
-   total = 0.0
-   count = 0.0
-   #print paras
-   for sents in paras:
-      #print sents
-      for words in sents:
-         #print "Pairing: " ,
-         #print words,
-         #print " Score: ",
-         count = count + 1
-         total = total + classifier.classify(langFeatures(words))
-   print "First word in paragraph is: ",
-   print paras[0][0],
-   print " aggregate score is: ",
-   print total/count
-   
-print "Two:"
-for paras in testcorpus.paras('2.txt'):
-   total = 0.0
-   count = 0.0
-   #print paras
-   for sents in paras:
-      #print sents
-      for words in sents:
-         #print "Pairing: " ,
-         #print words,
-         #print " Score: ",
-         count = count + 1
-         total = total + classifier.classify(langFeatures(words))
-   print "First word in paragraph is: ",
-   print paras[0][0],
-   print " aggregate score is: ",
-   print total/count
-   
-print "One:"
-for paras in testcorpus.paras('1.txt'):
-   total = 0.0
-   count = 0.0
-   #print paras
-   for sents in paras:
-      #print sents
-      for words in sents:
-         #print "Pairing: " ,
-         #print words,
-         #print " Score: ",
-         count = count + 1
-         total = total + classifier.classify(langFeatures(words))
-   print "First word in paragraph is: ",
-   print paras[0][0],
-   print " aggregate score is: ",
-   print total/count
 #now, it is tested on the test set and the accuracy reported
 #print "Accuracy: ",nltk.classify.accuracy(classifier,test)
 
