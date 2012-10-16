@@ -1,8 +1,8 @@
 def crossval(corpus, n):
    import random
    
-   size = 0
-   hold = range(0, len(corpus.keys()))
+   size = len(corpus.keys()) 
+   hold = range(0, size)
    random.shuffle(hold)
 
    holds = []
@@ -11,8 +11,8 @@ def crossval(corpus, n):
       holds.append(hold[:fold])
       hold = hold[fold:]
 
-   idx = 0
    crosses = []
+
    for hold in holds:
       test_set = {} 
       train_set = {}
