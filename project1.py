@@ -26,12 +26,13 @@ for root, dirs, files in os.walk("./training-clean"):
 crosses = crossval(corpus, 4)
 
 for train_set, test_set in crosses:
+   print "Cross:"
 
-   wordthings = {5: [w.lower() for w in train_set[5] if isValid(w)][:100],
-                 4: [w.lower() for w in train_set[4] if isValid(w)][:100],
-                 3: [w.lower() for w in train_set[3] if isValid(w)][:100],
-                 2: [w.lower() for w in train_set[2] if isValid(w)][:100],
-                 1: [w.lower() for w in train_set[1] if isValid(w)][:100]}
+   wordthings = {5: [w.lower() for w in train_set.get(5, []) if isValid(w)][:100],
+                 4: [w.lower() for w in train_set.get(4, []) if isValid(w)][:100],
+                 3: [w.lower() for w in train_set.get(3, []) if isValid(w)][:100],
+                 2: [w.lower() for w in train_set.get(2, []) if isValid(w)][:100],
+                 1: [w.lower() for w in train_set.get(1, []) if isValid(w)][:100]}
 
    words = reduce(operator.add, map(lambda L: ([(w.lower(),L) for w in wordthings[L]]),wordthings.keys()),[])
 

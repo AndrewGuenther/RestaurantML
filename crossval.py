@@ -1,5 +1,6 @@
 def crossval(corpus, n):
    import random
+   from copy import deepcopy
 
 #   hold = range(0, len(corpus.paras()))
    size = 0
@@ -12,13 +13,12 @@ def crossval(corpus, n):
    fold = int(size / n) + 1
    for i in range(0, n):
       holds.append(hold[:fold])
-      hold = hold[:fold]
-
-   print holds
+      hold = hold[fold:]
 
    idx = 0
    crosses = []
    for hold in holds:
+      idx = 0
       test_set = []
       train_set = {}
    #   for f in corpus.fileids():
@@ -30,8 +30,7 @@ def crossval(corpus, n):
             else:
                test_set.append(([para], f))
             idx += 1
-      
-      print test_set
+
       crosses.append((train_set, test_set))
 
    return crosses
