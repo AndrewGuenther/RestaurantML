@@ -15,34 +15,82 @@ def buildCorpus(filepaths):
       print review
 '''
 
-def buildCorpus(filepaths, corpus_root):
-#   from nltk.corpus import PlaintextCorpusReader
+def buildCorpus(filepaths):
    from nltk import word_tokenize
+   from nltk.tokenize.punkt import PunktSentenceTokenizer
 
-#   temps = [open(corpus_root + str(i) + ".txt", 'w') for i in range(1, 6)]
+   tok = PunktSentenceTokenizer()
 
-   corpus = {5:[], 4:[], 3:[], 2:[], 1:[]}
+   #All reviews are held in this review class
+   class Review:
+      def __init__(self, reviewer, ratings):
+         self.reviewer = reviewer
+         self.ratings = ratings
 
+      #All getters return a tuple (reviewer, rating, content) where content is either
+      #the list of paragraphs or list of sentences or list of words
+      def paras(self):
+         ret = []
+         for rating, sents in self.ratings:
+            para = [word for sent in sents for word in sent]
+            ret.append((self.reviewer, rating, para))
+         return ret
+
+      def sents(self):
+         ret = []
+         for rating, sents in self.ratings:
+            for sent in sents:
+               ret.append((self.reviewer, rating, sent))
+         return ret
+
+      def words(self):
+         ret = []
+         for rating, sents in self.ratings:
+            for sent in sents:
+               for word in sent:
+                  ret.append((self.reviewer, rating, word))
+         return ret
+
+   corpus = {}
    for path in filepaths:
+      filename = re.findall(r'.*\/(.*)', path)[0]
       raw = open(path).read()
-      
+      rawReview = []
+     
+      reviewer = re.findall(r'REVIEWER: *(\S* \S*)', raw)
       food = re.findall(r'FOOD: *(\d)', raw)
       service = re.findall(r'SERVICE: *(\d)', raw)
       venue = re.findall(r'VENUE: *(\d)', raw)
       rating = re.findall(r'RATING: *(\d)', raw)
-      ratings = [food, service, venue, rating]
+      ratings = [food, service, venue, rating, reviewer]
 
       reviews = re.findall(r'WRITTEN REVIEW:\s*(.*\n)(.*\n)(.*\n)(.*\n)', raw)
       for i, review in enumerate(reviews):
+         rawReview = []
          for j, para in enumerate(review):
-            corpus[int(ratings[j][i])] += [word_tokenize(para)]
-#            temps[int(ratings[j][i])-1].write(para + '\n')
+            rawReview.append((ratings[j][i], 
+                              [word_tokenize(sent) for sent in tok.tokenize(para)]))
 
-#   newcorpus = PlaintextCorpusReader(corpus_root, '.*')
+         if corpus.get(filename) is None:
+            corpus[filename] = Review(ratings[-1][i], rawReview)
+         else:
+            i = 1 
+            while corpus.get(filename + "-" + str(i)) is not None:
+               i += 1
+            corpus[filename + "-" + str(i)] = Review(ratings[-1][i], rawReview)
+
    return corpus
    
 def main():
-   print buildCorpus(sys.argv[1:], '/tmp/train/')
+   corpus = buildCorpus(sys.argv[1:])
+
+   for (f, rev) in corpus.items():
+      print f
+      print rev.reviewer
+      print rev.paras()[0]
+      print rev.sents()[0]
+      print rev.words()[0]
+      print
 
 if __name__ == '__main__':
    main()

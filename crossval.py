@@ -1,12 +1,8 @@
 def crossval(corpus, n):
    import random
-   from copy import deepcopy
-
-#   hold = range(0, len(corpus.paras()))
+   
    size = 0
-   for val in corpus.values():
-      size += len(val)
-   hold = range(0, size)
+   hold = range(0, len(corpus.keys()))
    random.shuffle(hold)
 
    holds = []
@@ -18,18 +14,13 @@ def crossval(corpus, n):
    idx = 0
    crosses = []
    for hold in holds:
-      idx = 0
-      test_set = []
+      test_set = {} 
       train_set = {}
-   #   for f in corpus.fileids():
-      for f in corpus.keys():
-   #      for para in corpus.paras(f):
-         for para in corpus[f]:
-            if idx not in hold:
-               train_set[f] = train_set.get(f, []) + para 
-            else:
-               test_set.append(([para], f))
-            idx += 1
+      for idx, f in enumerate(corpus.keys()):
+         if idx not in hold:
+            train_set[f] = corpus[f]
+         else:
+            test_set[f] = corpus[f]
 
       crosses.append((train_set, test_set))
 
