@@ -16,9 +16,12 @@ def buildCorpus(filepaths):
 '''
 
 def buildCorpus(filepaths, corpus_root):
-   from nltk.corpus import PlaintextCorpusReader
+#   from nltk.corpus import PlaintextCorpusReader
+   from nltk import word_tokenize
 
-   temps = [open(corpus_root + str(i) + ".txt", 'w') for i in range(1, 6)]
+#   temps = [open(corpus_root + str(i) + ".txt", 'w') for i in range(1, 6)]
+
+   corpus = {5:[], 4:[], 3:[], 2:[], 1:[]}
 
    for path in filepaths:
       raw = open(path).read()
@@ -32,13 +35,14 @@ def buildCorpus(filepaths, corpus_root):
       reviews = re.findall(r'WRITTEN REVIEW:\s*(.*\n)(.*\n)(.*\n)(.*\n)', raw)
       for i, review in enumerate(reviews):
          for j, para in enumerate(review):
-            temps[int(ratings[j][i])-1].write(para + '\n')
+            corpus[int(ratings[j][i])] += [word_tokenize(para)]
+#            temps[int(ratings[j][i])-1].write(para + '\n')
 
-   newcorpus = PlaintextCorpusReader(corpus_root, '.*')
-   return newcorpus
+#   newcorpus = PlaintextCorpusReader(corpus_root, '.*')
+   return corpus
    
 def main():
-   buildCorpus(sys.argv[1:])
+   print buildCorpus(sys.argv[1:], '/tmp/train/')
 
 if __name__ == '__main__':
    main()
