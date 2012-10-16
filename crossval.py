@@ -1,6 +1,7 @@
+import random
+from reviews import Review, ReviewSet
+ 
 def crossval(corpus, n):
-   import random
-   
    size = len(corpus.keys()) 
    hold = range(0, size)
    random.shuffle(hold)
@@ -14,8 +15,8 @@ def crossval(corpus, n):
    crosses = []
 
    for hold in holds:
-      test_set = {} 
-      train_set = {}
+      test_set = ReviewSet() 
+      train_set = ReviewSet()
       for idx, f in enumerate(corpus.keys()):
          if idx not in hold:
             train_set[f] = corpus[f]

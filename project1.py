@@ -30,22 +30,9 @@ crosses = crossval(corpus, 4)
 rmss = []
 for idx, (train_set, test_set) in enumerate(crosses):
    print "Random Validation Set", idx + 1, ":", test_set.keys()
-   words = [w for rev in train_set.values() for w in rev.words()]
-
-   random.shuffle(words)
-   featureSets = [(langFeatures(w.lower()), rank) for (reviwer, rank, w) in words if isValid(w)]
-
-   limit = {'5':0, '4':0, '3':0, '2':0, '1':0}
-   for feature, rank in featureSets:
-      if limit[rank] > 100:
-         featureSets.remove((feature, rank))
-      limit[rank] += 1
-
-   s = len(featureSets)
-   train = featureSets
 
    total = 0
-   classifier = nltk.NaiveBayesClassifier.train(train)
+   classifier = train_set.buildWordClassifier(langFeatures, 100, isValid)
 
    for f, rev in test_set.items():
       for reviewer, score, para in rev.paras():
@@ -59,8 +46,6 @@ for idx, (train_set, test_set) in enumerate(crosses):
 
       rms = sqrt(total / (len(test_set) * 4))
       rmss.append(rms)
-#      print f
-#      print "RMS:\t\t", rms
 
    sum = 0
    for rms in rmss:
@@ -68,8 +53,17 @@ for idx, (train_set, test_set) in enumerate(crosses):
    print "Average RMS error rate on validation set:", (sum / len(rmss))
    print
 
-#now, it is tested on the test set and the accuracy reported
-#print "Accuracy: ",nltk.classify.accuracy(classifier,test)
+classifier = corpus.buildWordClassifier(langFeatures, 100, isValid)
 
-#this is a nice function that reports the top most impactful features the NB classifier found
-#print classifier.show_most_informative_features(10) 
+for f, rev in testcorpus.items():
+   print "Now showing predictions for", f
+   prediction = []
+   for reviewer, score, para in rev.paras():
+      vals = {}
+      for word in para:
+         if isValid(word.lower()): 
+            output = classifier.classify(langFeatures(word.lower()))
+            vals[output] = vals.get(output, 0) + 1
+      prediction.append(int(sorted(vals.items(), key=lambda (key, val): val)[-1][0]))
+   print "Paragraph ratings:", prediction
+   print

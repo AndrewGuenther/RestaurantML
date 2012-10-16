@@ -1,6 +1,8 @@
 from nltk import clean_html
 import sys, re
-
+from reviews import Review, ReviewSet
+from nltk.tokenize.punkt import PunktSentenceTokenizer
+from nltk import word_tokenize
 '''
 def buildCorpus(filepaths):
    for path in filepaths:
@@ -16,42 +18,10 @@ def buildCorpus(filepaths):
 '''
 
 def buildCorpus(filepaths):
-   from nltk import word_tokenize
-   from nltk.tokenize.punkt import PunktSentenceTokenizer
 
    tok = PunktSentenceTokenizer()
 
-   #All reviews are held in this review class
-   class Review:
-      def __init__(self, reviewer, ratings):
-         self.reviewer = reviewer
-         self.ratings = ratings
-
-      #All getters return a tuple (reviewer, rating, content) where content is either
-      #the list of paragraphs or list of sentences or list of words
-      def paras(self):
-         ret = []
-         for rating, sents in self.ratings:
-            para = [word for sent in sents for word in sent]
-            ret.append((self.reviewer, rating, para))
-         return ret
-
-      def sents(self):
-         ret = []
-         for rating, sents in self.ratings:
-            for sent in sents:
-               ret.append((self.reviewer, rating, sent))
-         return ret
-
-      def words(self):
-         ret = []
-         for rating, sents in self.ratings:
-            for sent in sents:
-               for word in sent:
-                  ret.append((self.reviewer, rating, word))
-         return ret
-
-   corpus = {}
+   corpus = ReviewSet() 
    for path in filepaths:
       filename = re.findall(r'.*\/(.*)', path)[0]
       raw = open(path).read()
