@@ -1,5 +1,5 @@
 from nltk import clean_html
-import sys, re
+import sys, os, re
 from reviews import Review, ReviewSet
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 from nltk import word_tokenize
@@ -50,6 +50,16 @@ def buildCorpus(filepaths):
             corpus[filename + "-" + str(i)] = Review(ratings[-1][i], rawReview)
 
    return corpus
+
+
+def initCorpora():
+   for root, dirs, files in os.walk("./training-clean"):
+      corpus = buildCorpus(["./training-clean/" + f for f in files])
+      
+   for root, dirs, files in os.walk("./test-clean"):
+      testcorpus = buildCorpus(["./test-clean/" + f for f in files])
+
+   return corpus, testcorpus
    
 def main():
    corpus = buildCorpus(sys.argv[1:])

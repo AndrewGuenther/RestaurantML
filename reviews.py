@@ -9,6 +9,9 @@ class Review:
 
    #All getters return a tuple (reviewer, rating, content) where content is either
    #the list of paragraphs or list of sentences or list of words
+   def scores(self):
+      return [rating for rating, sents in self.ratings]
+
    def paras(self):
       ret = []
       for rating, sents in self.ratings:
