@@ -13,7 +13,7 @@ def langFeatures(para):
       sent = senti.get(word, (0, 0))
       pos += sent[0]
       neg += sent[1]
-   tot = pos / pow(neg, 3)
+   tot = pos / (pow(neg, 3) + 0.000001)
    #return {'pos': pos, 'neg': pow(neg, 2)}
    return {'sent': tot}
 
@@ -22,9 +22,9 @@ def getClassifier(corpus):
 
 def test(rev, classifier):
    predictions = []
-   for reviewer, score, para in rev.paras():
+   for section in rev:
       vals = {}
-      output = int(classifier.classify(langFeatures(para)))
+      output = int(classifier.classify(langFeatures(section.words())))
       predictions.append(output)
 
    return predictions

@@ -52,7 +52,10 @@ class ReviewSet(dict):
       return NaiveBayesClassifier.train(featureSets)
 
    def buildSentClassifier(self, features, normalize, validity):
-      sents = [s for rev in self.values() for s in rev.sents()]
+      sents = []
+      for rev in self.values():
+         for section in rev:
+            sents += [(rev.reviewer, section.rating, sent) for sent in section.sents()]
 
       random.shuffle(sents)
 
@@ -67,7 +70,10 @@ class ReviewSet(dict):
       return NaiveBayesClassifier.train(featureSets)
 
    def buildParaClassifier(self, features, normalize, validity):
-      paras = [p for rev in self.values() for p in rev.paras()]
+      paras = [] 
+      for rev in self.values():
+         for section in rev:
+            paras.append((rev.reviewer, section.rating, section.words()))
 
       random.shuffle(paras)
 

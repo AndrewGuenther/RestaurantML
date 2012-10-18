@@ -17,7 +17,7 @@ def getClassifier(corpus):
 
 def test(rev, classifier):
    predictions = []
-   for reviewer, score, para in rev.paras():
+   for section in rev:
       predictions.append(4)
 
    return predictions
