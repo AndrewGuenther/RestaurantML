@@ -18,9 +18,9 @@ def getClassifier(corpus):
 
 def test(rev, classifier):
    predictions = []
-   for reviewer, score, para in rev.paras():
+   for section in rev:
       vals = {}
-      for word in para:
+      for word in section.words():
          if isValid(word.lower()):
             output = classifier.classify(langFeatures(word.lower()))
             vals[output] = vals.get(output, 0) + 1

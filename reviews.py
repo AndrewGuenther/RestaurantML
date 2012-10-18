@@ -1,46 +1,45 @@
-from nltk import NaiveBayesClassifier
+from nltk import NaiveBayesClassifier, word_tokenize
 import random
+from nltk.tokenize.punkt import PunktSentenceTokenizer
 
-#All reviews are held in this review class
-class Review:
-   def __init__(self, reviewer, ratings):
-      self.reviewer = reviewer
-      self.ratings = ratings
-
-   #All getters return a tuple (reviewer, rating, content) where content is either
-   #the list of paragraphs or list of sentences or list of words
-   def scores(self):
-      return [rating for rating, sents in self.ratings]
-
-   def paras(self):
-      ret = []
-      for rating, sents in self.ratings:
-         para = [word for sent in sents for word in sent]
-         ret.append((self.reviewer, rating, para))
-      return ret
-
-   def sents(self):
-      ret = []
-      for rating, sents in self.ratings:
-         for sent in sents:
-            ret.append((self.reviewer, rating, sent))
-      return ret
+class ReviewItem:
+   def __init__(self, review, rating):
+      self.tok = PunktSentenceTokenizer()
+      self.rating = rating
+      self.review = review
 
    def words(self):
-      ret = []
-      for rating, sents in self.ratings:
-         for sent in sents:
-            for word in sent:
-               ret.append((self.reviewer, rating, word))
-      return ret
+      return word_tokenize(self.review)
+
+   def sents(self):
+      return self.tok.tokenize(self.review)
+
+class Review:
+   def __init__(self, reviewer, sections):
+      self.reviewer = reviewer
+      self.sections = sections
+
+   def scores(self):
+      return [section.rating for section in self.sections]
+
+   def overall(self):
+      return self.sections[-1].rating
+
+   def __iter__(self):
+      return iter(self.sections)
+
+   def __getitem__(self, key):
+      return self.sections[key]
 
 class ReviewSet(dict):
    def __init__(self, *args, **kw):
       super(ReviewSet,self).__init__(*args, **kw)
 
    def buildWordClassifier(self, features, normalize, validity):
-      words = [w for rev in self.values() for w in rev.words()]
-
+      words = []
+      for rev in self.values():
+         for section in rev:
+            words += [(rev.reviewer, section.rating, w) for w in section.words()]
       random.shuffle(words)
       featureSets = [(features(w.lower()), rank) for (reviwer, rank, w) in words if validity(w)]
 

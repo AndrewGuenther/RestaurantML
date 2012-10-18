@@ -1,8 +1,6 @@
 from nltk import clean_html
 import sys, os, re
-from reviews import Review, ReviewSet
-from nltk.tokenize.punkt import PunktSentenceTokenizer
-from nltk import word_tokenize
+from reviews import Review, ReviewSet, ReviewItem
 '''
 def buildCorpus(filepaths):
    for path in filepaths:
@@ -18,8 +16,6 @@ def buildCorpus(filepaths):
 '''
 
 def buildCorpus(filepaths):
-
-   tok = PunktSentenceTokenizer()
 
    corpus = ReviewSet() 
    for path in filepaths:
@@ -38,8 +34,7 @@ def buildCorpus(filepaths):
       for i, review in enumerate(reviews):
          rawReview = []
          for j, para in enumerate(review):
-            rawReview.append((ratings[j][i], 
-                              [word_tokenize(sent) for sent in tok.tokenize(para)]))
+            rawReview.append(ReviewItem(para, ratings[j][i]))
 
          if corpus.get(filename) is None:
             corpus[filename] = Review(ratings[-1][i], rawReview)
@@ -67,9 +62,9 @@ def main():
    for (f, rev) in corpus.items():
       print f
       print rev.reviewer
-      print rev.paras()[0]
-      print rev.sents()[0]
-      print rev.words()[0]
+      for section in rev:
+         print section.rating
+         print section.sents()
       print
 
 if __name__ == '__main__':
