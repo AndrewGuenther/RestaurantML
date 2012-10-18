@@ -67,12 +67,12 @@ class ReviewSet(dict):
 
       return NaiveBayesClassifier.train(featureSets)
 
-   def buildSentClassifier(self, features, normalize, validity):
-      paras = [p for rev in self.values() for p in rev.sents()]
+   def buildParaClassifier(self, features, normalize, validity):
+      paras = [p for rev in self.values() for p in rev.paras()]
 
-      random.shuffle(sents)
+      random.shuffle(paras)
 
-      featureSets = [(features(sent), rank) for (reviwer, rank, sent) in sents if validity(sent)]
+      featureSets = [(features(para), rank) for (reviwer, rank, para) in paras if validity(para)]
 
       limit = {'5':0, '4':0, '3':0, '2':0, '1':0}
       for feature, rank in featureSets:

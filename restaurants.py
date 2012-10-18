@@ -18,7 +18,7 @@ for idx, (train_set, test_set) in enumerate(crosses):
 
    for f, rev in test_set.items():
       results = method.test(rev, classifier)
-
+      #print results
       diffs = [pow(a - int(b), 2) for a, b in zip(results, rev.scores())]
       total = reduce(operator.add, diffs)
       rms = sqrt(total / 4)
@@ -38,5 +38,5 @@ for f, rev in testcorpus.items():
    results = method.test(rev, classifier)
 
    print "Now showing predictions for", f
-   print "Paragraph ratings:", results
+   print "Paragraph ratings:", [round(r, 2) for r in results]
    print
