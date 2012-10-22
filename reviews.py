@@ -87,7 +87,7 @@ class ReviewSet(dict):
 
       return NaiveBayesClassifier.train(featureSets)
 
-   def buildParaClassifier(self, features, normalize, validity):
+   def buildRevClassifier(self, features, normalize, validity):
       revs = random.shuffle(self.values)
 
       featureSets = [(features(rev), rev.overall()) for rev in revs if validity(rev)]
