@@ -9,7 +9,8 @@ def main(method1, method2, method3):
    crosses = crossval(corpus, 4)
 
    print "Cross validation"
-   rmss = []
+   rmss = [[], [], []]
+
    for idx, (train_set, test_set) in enumerate(crosses):
       print "Random validation set", idx + 1, ":", test_set.keys()
 
@@ -19,20 +20,39 @@ def main(method1, method2, method3):
       ex3 = method3.Method(train_set)
 
       for f, rev in test_set.items():
-         results = ex1.test(rev)
-         diffs = [pow(a - int(b), 2) for a, b in zip(results, rev.scores())]
-         total = reduce(operator.add, diffs)
-         rms = sqrt(total / 4)
+         results1 = ex1.test(rev)
+         diffs1 = [pow(a - int(b), 2) for a, b in zip(results1, rev.scores())]
+         total1 = reduce(operator.add, diffs1)
+         rms1 = sqrt(total1 / 4)
+         rmss[0].append(rms1)
+         
+         result2 = ex2.test(rev)
+         rms2 = sqrt(pow(result2 - int(rev.overall()), 2))       
+         rmss[1].append(rms2)
 
-         rmss.append(rms)
+         result3 = ex3.test(rev)
+         #print result3 + ", " + rev.reviewer
+         rms3 = 0
 
-      sum = 0
-      for rms in rmss:
-         sum += rms
+         if (result3 == rev.reviewer):
+            rms3 = 1
+         rmss[2].append(rms3)
+
+      sum1 = 0
+      for rms in rmss[0]:
+         sum1 += rms
+
+      sum2 = 0
+      for rms in rmss[1]:
+         sum2 += rms
+
+      sum3 = 0
+      for rms in rmss[2]:
+         sum3 += rms
       print "Average RMS error rate on validation set:"
-      print "\tExercise 1:", round(sum / len(rmss), 2)
-      print "\tExercise 2:"
-      print "\tExercise 3:"
+      print "\tExercise 1:", round(sum1 / len(rmss[0]), 2)
+      print "\tExercise 2:", round(sum2 / len(rmss[1]), 2)
+      print "\tExercise 3:", round(sum3 / len(rmss[2]), 2)
       print
 
    ex1 = method1.Method(corpus)

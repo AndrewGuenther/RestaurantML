@@ -88,14 +88,13 @@ class ReviewSet(dict):
       return NaiveBayesClassifier.train(featureSets)
 
    def buildRevClassifier(self, features, normalize, validity):
-      revs = random.shuffle(self.values)
+      revs = random.shuffle(self.values())
 
-      featureSets = [(features(rev), rev.overall()) for rev in revs if validity(rev)]
+      featureSets = [(features(rev), rev.reviewer) for rev in self.values()]
 
-      limit = {'5':0, '4':0, '3':0, '2':0, '1':0}
-      for feature, rank in featureSets:
-         if limit[rank] > normalize:
-            featureSets.remove((feature, rank))
-         limit[rank] += 1
-
+      #limit = {'5':0, '4':0, '3':0, '2':0, '1':0}
+      #for feature, rank in featureSets:
+      #   if limit[rank] > normalize:
+      #      featureSets.remove((feature, rank))
+      #   limit[rank] += 1
       return NaiveBayesClassifier.train(featureSets)
