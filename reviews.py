@@ -12,7 +12,7 @@ class ReviewItem:
       return word_tokenize(self.review)
 
    def sents(self):
-      return self.tok.tokenize(self.review)
+      return [word_tokenize(sent) for sent in self.tok.tokenize(self.review)]
 
 class Review:
    def __init__(self, reviewer, sections):
@@ -58,7 +58,7 @@ class ReviewSet(dict):
             sents += [(rev.reviewer, section.rating, sent) for sent in section.sents()]
 
       random.shuffle(sents)
-
+      
       featureSets = [(features(sent), rank) for (reviwer, rank, sent) in sents if validity(sent)]
 
       limit = {'5':0, '4':0, '3':0, '2':0, '1':0}
