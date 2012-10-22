@@ -9,11 +9,12 @@ def main(method1, method2, method3):
    crosses = crossval(corpus, 4)
 
    print "Cross validation"
-   rmss = [[], [], []]
 
+   avg = [[], [], []]
    for idx, (train_set, test_set) in enumerate(crosses):
       print "Random validation set", idx + 1, ":", test_set.keys()
 
+      rmss = [[], [], []]
       #classifier = method.getClassifier(train_set)
       ex1 = method1.Method(train_set)
       ex2 = method2.Method(train_set)
@@ -32,10 +33,9 @@ def main(method1, method2, method3):
 
          result3 = ex3.test(rev)
          #print result3 + ", " + rev.reviewer
-         rms3 = 0
-
+         rms3 = 1
          if (result3 == rev.reviewer):
-            rms3 = 1
+            rms3 = 0
          rmss[2].append(rms3)
 
       sum1 = 0
@@ -49,11 +49,21 @@ def main(method1, method2, method3):
       sum3 = 0
       for rms in rmss[2]:
          sum3 += rms
+
+      avg[0].append(round(sum1 / len(rmss[0]), 2)) 
+      avg[1].append(round(sum2 / len(rmss[1]), 2))
+      avg[2].append(round(float(sum3) / len(rmss[2]), 2))
       print "Average RMS error rate on validation set:"
-      print "\tExercise 1:", round(sum1 / len(rmss[0]), 2)
-      print "\tExercise 2:", round(sum2 / len(rmss[1]), 2)
-      print "\tExercise 3:", round(sum3 / len(rmss[2]), 2)
+      print "\tExercise 1:", avg[0][-1]
+      print "\tExercise 2:", avg[1][-1]
+      print "\tExercise 3:", avg[2][-1]
       print
+
+   print "Average RMS error rate on all validation sets:"
+   print "\tExercise 1:", round(reduce(operator.add, avg[0]) / len(avg[0]), 2)
+   print "\tExercise 2:", round(reduce(operator.add, avg[1]) / len(avg[1]), 2)
+   print "\tExercise 3:", round(reduce(operator.add, avg[2]) / len(avg[2]), 2)
+   print
 
    ex1 = method1.Method(corpus)
    ex2 = method2.Method(corpus)
