@@ -8,8 +8,8 @@ class Method:
       return False
 
    def langFeatures(self, word):
-      sent = self.senti.get(word, (0, 0))[0] - self.senti.get(word, (0, 0))[1]
-      return {'sent': sent}
+      sent = self.senti.get(word, (0, 0)) 
+      return {'pos': sent[0], 'neg': sent[1]}
 
    def test(self, rev):
       predictions = []
@@ -26,4 +26,5 @@ class Method:
    def __init__(self, corpus):
       self.ml = 2
       self.senti = buildSenti()
-      self.classifier = corpus.buildWordClassifier(self.langFeatures, 100, self.isValid)
+      self.classifier = corpus.buildWordClassifier(self.langFeatures, 100000, self.isValid)
+      self.classifier.show_most_informative_features(5)
