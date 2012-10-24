@@ -33,9 +33,9 @@ def main(method1, method2, method3):
 
          result3 = ex3.test(rev)
          #print result3 + ", " + rev.reviewer
-         rms3 = 1
+         rms3 = 0
          if (result3 == rev.reviewer):
-            rms3 = 0
+            rms3 = 1
          rmss[2].append(rms3)
 
       sum1 = 0
