@@ -6,11 +6,13 @@ def crossval(corpus, n):
    hold = range(0, size)
    random.shuffle(hold)
 
+   avg = len(corpus) / float(n)
    holds = []
-   fold = int(size / n) + 1
-   for i in range(0, n):
-      holds.append(hold[:fold])
-      hold = hold[fold:]
+   last = 0.0
+
+   while last < len(hold):
+      holds.append(hold[int(last):int(last + avg)])
+      last += avg
 
    crosses = []
 

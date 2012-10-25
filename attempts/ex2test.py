@@ -1,5 +1,4 @@
 from buildSenti import buildSenti
-from nltk.corpus import stopwords
 from math import sqrt
 
 class Method:
@@ -10,18 +9,15 @@ class Method:
 
    def langFeatures(self, word):
       sent = self.senti.get(word, (0, 0))[0] - self.senti.get(word, (0, 0))[1]
-
-      return {'sent':sent}
+      return {'sent': sent}
 
    def test(self, rev):
       vals = {}
-      stopset = set(stopwords.words('english'))
       for section in rev:
          for word in section.words():
-            if word not in stopset:
-                if self.isValid(word.lower()):
-                    output = self.classifier.classify(self.langFeatures(word.lower()))
-                    vals[output] = vals.get(output, 0) + 1
+            if self.isValid(word.lower()):
+               output = self.classifier.classify(self.langFeatures(word.lower()))
+               vals[output] = vals.get(output, 0) + 1
 
       prediction, count = 0.0, 0.0
       for (output, occurances) in vals.items():

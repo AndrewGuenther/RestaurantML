@@ -1,0 +1,9 @@
+test01.html,4.0,4.0,4.0,4.0,3.54,Joseph White
+test02.html,4.0,4.0,4.0,4.0,3.71,Devlin Cronin
+test03.html,4.0,4.0,4.0,4.0,3.78,Joseph White
+test04.html,4.0,4.0,4.0,4.0,3.48,Joseph White
+test05.html,4.0,4.0,4.0,4.0,3.89,Joseph White
+test06.html,4.0,4.0,4.0,4.0,3.74,Nick Feeney
+test07.html,4.0,4.0,4.0,4.0,3.79,Nick Feeney
+test08.html,4.0,4.0,4.0,4.0,3.49,Ryan Verdon
+test09.html,4.0,4.0,4.0,4.0,3.65,Joseph White

@@ -27,4 +27,3 @@ class Method:
       self.ml = 2
       self.senti = buildSenti()
       self.classifier = corpus.buildWordClassifier(self.langFeatures, 100000, self.isValid)
-      self.classifier.show_most_informative_features(5)

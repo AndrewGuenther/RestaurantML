@@ -72,7 +72,7 @@ def main(method1, method2, method3):
       print
 
 if __name__ == '__main__':
-   method1 = __import__(sys.argv[1])
-   method2 = __import__(sys.argv[2])
-   method3 = __import__(sys.argv[3])
+   method1 = __import__('ex1')
+   method2 = __import__('ex2')
+   method3 = __import__('ex3')
    main(method1, method2, method3)
